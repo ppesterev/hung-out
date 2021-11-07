@@ -2,7 +2,7 @@
   "name": "hung-out",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"vite\" \"ts-node-dev --transpile-only src/server/server.ts\"",
     "build": "tsc && vite build",
     "serve": "vite preview"
   },
@@ -11,6 +11,9 @@
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.0.0",
+    "@types/node": "^16.11.6",
+    "concurrently": "^6.3.0",
+    "ts-node-dev": "^1.1.8",
     "typescript": "^4.3.2",
     "vite": "^2.6.4"
   }
