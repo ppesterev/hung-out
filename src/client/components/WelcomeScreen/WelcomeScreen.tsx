@@ -1,12 +1,14 @@
+import { Container, WelcomeForm, NameInput } from "./styled";
+
 export default function WelcomeScreen() {
   return (
-    <div className="welcome-screen">
-      <form className="join-form">
+    <Container>
+      <WelcomeForm>
         <label>
-          <input type="text" name="username" />
-          <button type="submit">Join game</button>
+          <NameInput type="text" name="username" />
         </label>
-      </form>
-    </div>
+        <button type="submit">Join game</button>
+      </WelcomeForm>
+    </Container>
   );
 }

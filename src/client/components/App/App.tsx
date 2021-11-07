@@ -1,7 +1,12 @@
 import WelcomeScreen from "../WelcomeScreen";
 
-import "./App.css";
+import { GlobalStyle } from "./styled";
 
 export default function App() {
-  return <WelcomeScreen />;
+  return (
+    <>
+      <GlobalStyle />
+      <WelcomeScreen />
+    </>
+  );
 }
