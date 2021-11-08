@@ -4,6 +4,6 @@ export const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     font-family: monospace;
-    background-color: #decade;
+    background-color: whitesmoke;
   }
 `;
