@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "concurrently \"vite\" \"ts-node-dev --transpile-only src/server/server.ts\"",
     "build": "tsc && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "start": "node dist/server/server.js"
   },
   "dependencies": {
     "preact": "^10.5.13",
