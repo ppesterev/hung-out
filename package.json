@@ -8,10 +8,14 @@
     "start": "node dist/server/server.js"
   },
   "dependencies": {
-    "preact": "^10.5.13"
+
+    "mime-types": "^2.1.33",
+    "preact": "^10.5.13",
+    "styled-components": "^5.3.3"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.0.0",
+    "@types/mime-types": "^2.1.1",
     "@types/node": "^16.11.6",
     "concurrently": "^6.3.0",
     "ts-node-dev": "^1.1.8",

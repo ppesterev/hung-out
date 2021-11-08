@@ -2,22 +2,24 @@ import { RequestListener } from "http";
 import path from "path";
 import { readFile } from "fs/promises";
 
+import { contentType } from "mime-types";
+
 const PUBLIC_PATH = "dist/public";
 
-const mimeTypes: { [index: string]: string } = {
-  ".html": "text/html",
-  ".css": "text/css",
-  ".js": "application/javascript"
-};
-
 const serveStaticFiles: RequestListener = (req, res) => {
-  const filename = path.basename(req.url!) || "index.html";
-  const filepath = path.join(PUBLIC_PATH, path.dirname(req.url!), filename);
+  const requestPath = new URL(req.url!, `http://${req.headers.host}`).pathname;
+
+  const filename = path.basename(requestPath) || "index.html";
+  const filepath = path.join(PUBLIC_PATH, path.dirname(requestPath), filename);
+
+  const extension = path.extname(filepath);
+  const mimeType = contentType(extension) || "application/octet-stream";
+
+  console.log({ requestPath, filename, filepath, extension, mimeType });
+
   readFile(filepath)
     .then((data) => {
-      res.writeHead(200, {
-        "Content-Type": mimeTypes[path.extname(filepath)] || "text/plain"
-      });
+      res.writeHead(200, { "Content-Type": mimeType });
       res.end(data);
     })
     .catch(() => {
