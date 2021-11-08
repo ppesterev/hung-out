@@ -1,4 +1,13 @@
 import { render } from "preact";
+
 import App from "./components/App";
 
-render(<App />, document.getElementById("app")!);
+import { GlobalStyle } from "./styled";
+
+render(
+  <>
+    <GlobalStyle />
+    <App />
+  </>,
+  document.getElementById("app")!
+);
