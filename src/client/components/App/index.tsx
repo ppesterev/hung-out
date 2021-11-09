@@ -1,6 +1,6 @@
 import WelcomeScreen from "../WelcomeScreen";
 
-import "./App.css";
+import "./style.css";
 
 export default function App() {
   return <WelcomeScreen />;

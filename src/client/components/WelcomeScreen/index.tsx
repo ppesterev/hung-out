@@ -1,3 +1,5 @@
+import "./style.css";
+
 export default function WelcomeScreen() {
   return (
     <div className="welcome-screen">
