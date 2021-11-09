@@ -9,13 +9,15 @@
   },
   "dependencies": {
     "mime-types": "^2.1.33",
-    "preact": "^10.5.13"
+    "preact": "^10.5.13",
+    "ws": "^8.2.3"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.0.0",
     "@types/mime-types": "^2.1.1",
     "@types/node": "^16.11.6",
     "@types/styled-components": "^5.1.15",
+    "@types/ws": "^8.2.0",
     "concurrently": "^6.3.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.3.2",
