@@ -3,14 +3,22 @@ import { useState } from "preact/hooks";
 import * as api from "../../api";
 
 interface Props {
+  users: string[];
   messages: string[];
   onDisconnected: () => void;
 }
 
-export default function GameScreen({ messages, onDisconnected }: Props) {
+export default function GameScreen({ users, messages, onDisconnected }: Props) {
   const [messageText, setMessageText] = useState("");
   return (
     <div className="game-screen">
+      <h2>Users</h2>
+      <ul>
+        {users.map((user) => (
+          <li>{user}</li>
+        ))}
+      </ul>
+      <h2>Chat</h2>
       <ul>
         {messages.map((msg) => (
           <li>{msg}</li>

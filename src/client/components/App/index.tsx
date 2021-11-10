@@ -10,9 +10,11 @@ import "./style.css";
 export default function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
+  const [users, setUsers] = useState<string[]>([]);
 
   return isConnected ? (
     <GameScreen
+      users={users}
       messages={messages}
       onDisconnected={() => {
         setIsConnected(false);
@@ -22,6 +24,7 @@ export default function App() {
   ) : (
     <WelcomeScreen
       onConnected={(response) => {
+        setUsers((users) => response.userList || users);
         setIsConnected(true);
         api.onUpdate((update) => {
           setMessages((messages) => messages.concat(JSON.stringify(update)));
