@@ -15,8 +15,6 @@ const serveStaticFiles: RequestListener = (req, res) => {
   const extension = path.extname(filepath);
   const mimeType = contentType(extension) || "application/octet-stream";
 
-  console.log({ requestPath, filename, filepath, extension, mimeType });
-
   readFile(filepath)
     .then((data) => {
       res.writeHead(200, { "Content-Type": mimeType });

@@ -16,7 +16,6 @@ const server = createServer((req, res) => {
 const wsServer = new WebSocketServer({ server });
 wsServer.on("connection", (ws, req) => {
   const reqUrl = new URL(req.url!, `wss://${req.headers.host}`);
-  console.log(reqUrl);
 
   const username = reqUrl.searchParams.get("username");
 
