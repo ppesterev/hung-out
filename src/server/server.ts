@@ -20,6 +20,14 @@ const sendToAll = (message: ServerUpdate) => {
   });
 };
 
+// const sendToAllExcept = (excludedUser: string, message: ServerUpdate) => {
+//   connectedPlayers.forEach(({ connection }, username) => {
+//     if (username !== excludedUser) {
+//       connection.send(message);
+//     }
+//   });
+// };
+
 const PORT = process.env.PORT || 9001;
 
 const server = createServer((req, res) => {
@@ -53,6 +61,15 @@ wsServer.on("connection", (ws, req) => {
   // add player record
   connectedPlayers.set(username, { connection: ws, score: 0 });
   sendToAll({ serverMessage: `Player ${username} connected` });
+
+  ws.on("message", (data) => {
+    sendToAll({
+      userMessage: {
+        username,
+        text: data.toString()
+      }
+    });
+  });
 
   // handle disconnection
   ws.on("close", () => {
