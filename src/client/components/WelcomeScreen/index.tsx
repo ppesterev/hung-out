@@ -1,15 +1,15 @@
 import { useState } from "preact/hooks";
+import * as api from "../../api";
 
 import "./style.css";
 
-const WS_URL =
-  process.env.NODE_ENV === "production"
-    ? `wss://${window.location.host}`
-    : `ws://localhost:9001`;
+interface Props {
+  onConnected: (response: Object) => any;
+}
 
-export default function WelcomeScreen() {
+export default function WelcomeScreen({ onConnected }: Props) {
   const [username, setUsername] = useState("");
-  const [messageList, setMessageList] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   return (
     <div className="welcome-screen">
@@ -17,11 +17,14 @@ export default function WelcomeScreen() {
         className="join-form"
         onSubmit={(evt) => {
           evt.preventDefault();
-          const url = new URL(`/?username=${username}`, WS_URL);
-          const ws = new WebSocket(url);
-          ws.addEventListener("message", (evt) => {
-            setMessageList((list) => list.concat(evt.data));
-          });
+          api
+            .connect(username)
+            .then((response) => {
+              onConnected(response);
+            })
+            .catch((error) => {
+              setError(error);
+            });
         }}
       >
         <label>
@@ -34,12 +37,6 @@ export default function WelcomeScreen() {
           <button type="submit">Join game</button>
         </label>
       </form>
-
-      <ul>
-        {messageList.map((msg) => (
-          <li>{msg}</li>
-        ))}
-      </ul>
     </div>
   );
 }
