@@ -13,6 +13,7 @@ export default function WelcomeScreen({ onConnected }: Props) {
 
   return (
     <div className="welcome-screen">
+      {error && <p>Error: {error}</p>}
       <form
         className="join-form"
         onSubmit={(evt) => {
