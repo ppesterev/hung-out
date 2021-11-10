@@ -2,7 +2,11 @@ import { createServer } from "http";
 import { WebSocket, WebSocketServer } from "ws";
 
 import serveStaticFiles from "./serve-static-files";
-import { ServerDataUpdate, ServerErrorUpdate } from "../shared/types";
+import {
+  ServerDataUpdate,
+  ServerErrorUpdate,
+  ServerUpdate
+} from "../shared/types";
 
 interface Player {
   connection: WebSocket;
@@ -10,6 +14,11 @@ interface Player {
 }
 
 const connectedPlayers = new Map<string, Player>();
+const sendToAll = (message: ServerUpdate) => {
+  connectedPlayers.forEach(({ connection }) => {
+    connection.send(JSON.stringify(message));
+  });
+};
 
 const PORT = process.env.PORT || 9001;
 
@@ -22,6 +31,7 @@ wsServer.on("connection", (ws, req) => {
   const reqUrl = new URL(req.url!, `wss://${req.headers.host}`);
   const username = reqUrl.searchParams.get("username");
 
+  // immediately close connection if username is invalid or taken
   if (!username || connectedPlayers.has(username)) {
     const message: ServerErrorUpdate = {
       error: username
@@ -35,30 +45,19 @@ wsServer.on("connection", (ws, req) => {
 
   // the first message a new connection receives
   // signals whether it is accepted or rejected
-  const message: ServerDataUpdate = {
+  const initialMessage: ServerDataUpdate = {
     userList: Array.from(connectedPlayers.keys())
   };
-  ws.send(JSON.stringify(message));
+  ws.send(JSON.stringify(initialMessage));
 
   // add player record
   connectedPlayers.set(username, { connection: ws, score: 0 });
+  sendToAll({ serverMessage: `Player ${username} connected` });
 
+  // handle disconnection
   ws.on("close", () => {
     connectedPlayers.delete(username);
-    connectedPlayers.forEach((player) => {
-      let message: ServerDataUpdate = {
-        serverMessage: `Player ${username} disconnected`
-      };
-      player.connection.send(JSON.stringify(message));
-    });
-  });
-
-  // notify players of new connection
-  connectedPlayers.forEach((player) => {
-    let message: ServerDataUpdate = {
-      serverMessage: `Player ${username} connected`
-    };
-    player.connection.send(JSON.stringify(message));
+    sendToAll({ serverMessage: `Player ${username} disconnected` });
   });
 });
 
