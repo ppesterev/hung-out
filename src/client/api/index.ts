@@ -20,6 +20,7 @@ export function connect(username: string): Promise<any> {
         const response = JSON.parse(evt.data);
         if (response.error) {
           reject(response.error);
+          connection = null;
         }
         resolve(response);
       },
