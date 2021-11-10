@@ -11,11 +11,23 @@ export default function App() {
   const [messages, setMessages] = useState<string[]>([]);
 
   return isConnected ? (
-    <ul>
-      {messages.map((msg) => (
-        <li>{msg}</li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        {messages.map((msg) => (
+          <li>{msg}</li>
+        ))}
+      </ul>
+      <button
+        type="button"
+        onClick={() => {
+          api.disconnect();
+          setIsConnected(false);
+          setMessages([]);
+        }}
+      >
+        Disconnect
+      </button>
+    </>
   ) : (
     <WelcomeScreen
       onConnected={(response) => {

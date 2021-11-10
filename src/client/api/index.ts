@@ -48,3 +48,8 @@ export function onUpdate(handler: (update: ServerDataUpdate) => void) {
     handler(update);
   });
 }
+
+export function disconnect() {
+  connection?.close();
+  connection = null;
+}

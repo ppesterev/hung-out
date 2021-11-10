@@ -45,6 +45,12 @@ wsServer.on("connection", (ws, req) => {
 
   ws.on("close", () => {
     connectedPlayers.delete(username);
+    connectedPlayers.forEach((player) => {
+      let message: ServerDataUpdate = {
+        serverMessage: `Player ${username} disconnected`
+      };
+      player.connection.send(JSON.stringify(message));
+    });
   });
 
   // notify players of new connection
