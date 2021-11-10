@@ -9,7 +9,7 @@ const WS_URL =
 
 export default function WelcomeScreen() {
   const [username, setUsername] = useState("");
-  const [message, setMessage] = useState<string | null>(null);
+  const [messageList, setMessageList] = useState<string[]>([]);
 
   return (
     <div className="welcome-screen">
@@ -20,7 +20,7 @@ export default function WelcomeScreen() {
           const url = new URL(`/?username=${username}`, WS_URL);
           const ws = new WebSocket(url);
           ws.addEventListener("message", (evt) => {
-            setMessage(evt.data);
+            setMessageList((list) => list.concat(evt.data));
           });
         }}
       >
@@ -35,7 +35,11 @@ export default function WelcomeScreen() {
         </label>
       </form>
 
-      {message && <p>{message}</p>}
+      <ul>
+        {messageList.map((msg) => (
+          <li>{msg}</li>
+        ))}
+      </ul>
     </div>
   );
 }
