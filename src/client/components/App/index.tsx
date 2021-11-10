@@ -3,6 +3,7 @@ import { useState } from "preact/hooks";
 import * as api from "../../api";
 
 import WelcomeScreen from "../WelcomeScreen";
+import GameScreen from "../GameScreen";
 
 import "./style.css";
 
@@ -11,23 +12,13 @@ export default function App() {
   const [messages, setMessages] = useState<string[]>([]);
 
   return isConnected ? (
-    <>
-      <ul>
-        {messages.map((msg) => (
-          <li>{msg}</li>
-        ))}
-      </ul>
-      <button
-        type="button"
-        onClick={() => {
-          api.disconnect();
-          setIsConnected(false);
-          setMessages([]);
-        }}
-      >
-        Disconnect
-      </button>
-    </>
+    <GameScreen
+      messages={messages}
+      onDisconnected={() => {
+        setIsConnected(false);
+        setMessages([]);
+      }}
+    />
   ) : (
     <WelcomeScreen
       onConnected={(response) => {
