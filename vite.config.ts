@@ -15,10 +15,5 @@ export default defineConfig({
   build: {
     outDir: "../../dist/public",
     emptyOutDir: true
-  },
-  server: {
-    proxy: {
-      "/api": "http://localhost:9001"
-    }
   }
 });
