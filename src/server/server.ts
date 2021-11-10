@@ -30,6 +30,10 @@ wsServer.on("connection", (ws, req) => {
     return;
   }
 
+  // the first message a new connection receives
+  // signals whether it is accepted or rejected
+  ws.send(JSON.stringify({ error: null }));
+
   // add player record
   connectedPlayers.set(username, { connection: ws, score: 0 });
 
