@@ -2,6 +2,7 @@ import { createServer } from "http";
 import { WebSocket, WebSocketServer } from "ws";
 
 import serveStaticFiles from "./serve-static-files";
+import { ServerDataUpdate, ServerErrorUpdate } from "../shared/types";
 
 interface Player {
   connection: WebSocket;
@@ -22,17 +23,22 @@ wsServer.on("connection", (ws, req) => {
   const username = reqUrl.searchParams.get("username");
 
   if (!username || connectedPlayers.has(username)) {
-    let error = username
-      ? "Username is taken"
-      : "Connection request must include a username";
-    ws.send(JSON.stringify({ error }));
+    const message: ServerErrorUpdate = {
+      error: username
+        ? "Username is taken"
+        : "Connection request must include a username"
+    };
+    ws.send(JSON.stringify(message));
     ws.close();
     return;
   }
 
   // the first message a new connection receives
   // signals whether it is accepted or rejected
-  ws.send(JSON.stringify({ error: null }));
+  const message: ServerDataUpdate = {
+    userList: Array.from(connectedPlayers.keys())
+  };
+  ws.send(JSON.stringify(message));
 
   // add player record
   connectedPlayers.set(username, { connection: ws, score: 0 });
@@ -43,9 +49,10 @@ wsServer.on("connection", (ws, req) => {
 
   // notify players of new connection
   connectedPlayers.forEach((player) => {
-    player.connection.send(
-      JSON.stringify({ data: `Player ${username} connected` })
-    );
+    let message: ServerDataUpdate = {
+      serverMessage: `Player ${username} connected`
+    };
+    player.connection.send(JSON.stringify(message));
   });
 });
 

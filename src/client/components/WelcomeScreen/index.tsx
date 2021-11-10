@@ -1,10 +1,12 @@
 import { useState } from "preact/hooks";
+
 import * as api from "../../api";
+import { ServerDataUpdate } from "../../../shared/types";
 
 import "./style.css";
 
 interface Props {
-  onConnected: (response: Object) => any;
+  onConnected: (response: ServerDataUpdate) => any;
 }
 
 export default function WelcomeScreen({ onConnected }: Props) {
