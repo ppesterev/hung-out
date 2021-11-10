@@ -30,11 +30,18 @@ wsServer.on("connection", (ws, req) => {
     return;
   }
 
+  // add player record
   connectedPlayers.set(username, { connection: ws, score: 0 });
-  ws.send(JSON.stringify({ data: `Hello, ${username}` }));
 
   ws.on("close", () => {
     connectedPlayers.delete(username);
+  });
+
+  // notify players of new connection
+  connectedPlayers.forEach((player) => {
+    player.connection.send(
+      JSON.stringify({ data: `Player ${username} connected` })
+    );
   });
 });
 
