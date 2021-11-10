@@ -29,7 +29,7 @@ const onDisconnected = (username: string) => {
   sendToAll({ serverMessage: `User ${username} disconnected` });
 };
 
-export const addPlayer = (connection: WebSocket, username: string | null) => {
+export const addUser = (connection: WebSocket, username: string | null) => {
   if (!username || connectedUsers.has(username)) {
     connection.send(
       JSON.stringify({
