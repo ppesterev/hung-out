@@ -8,8 +8,8 @@ const enum GameState {
 
 const enum GuessResult {
   INVALID,
-  CORRECT,
-  MISTAKE,
+  HIT,
+  MISS,
   WIN,
   LOSS
 }
@@ -23,6 +23,14 @@ export class Game {
     this._state = state;
   }
 
+  protected _term: string = "";
+  get term() {
+    return this._term;
+  }
+  protected set term(term) {
+    this._term = term;
+  }
+
   protected _guesses: string[] = [];
   get guesses() {
     return this._guesses.slice();
@@ -31,12 +39,23 @@ export class Game {
     this._guesses = guesses;
   }
 
-  protected _mistakes: string[] = [];
-  get mistakes() {
-    return this._mistakes.slice();
+  get mistakes(): string[] {
+    const termLetters = this.term.split("");
+    return this.guesses.filter((guess) => !termLetters.includes(guess));
   }
-  protected set mistakes(mistakes) {
-    this._mistakes = mistakes;
+
+  protected get hiddenLetters(): Set<string> {
+    const termLetters = this.term.split("");
+    return new Set(
+      termLetters.filter((letter) => !this.guesses.includes(letter))
+    );
+  }
+
+  protected get revealedLetters(): Set<string> {
+    const termLetters = this.term.split("");
+    return new Set(
+      termLetters.filter((letter) => this.guesses.includes(letter))
+    );
   }
 
   protected _maxMistakes: number = DEFAULT_MISTAKE_LIMIT;
@@ -47,26 +66,7 @@ export class Game {
     this._maxMistakes = max;
   }
 
-  protected _term: string | null = null;
-  get term() {
-    return this._term;
-  }
-  protected set term(term) {
-    this._term = term;
-  }
-
   protected wordlist: string[];
-
-  protected hiddenLetters = new Set<string>();
-  protected get revealedLetters(): Set<string> {
-    if (!this.term) {
-      return new Set();
-    }
-    const termLetters = this.term.split("");
-    return new Set(
-      termLetters.filter((letter) => !this.hiddenLetters.has(letter))
-    );
-  }
 
   constructor(wordlist: string[]) {
     this.wordlist = wordlist.slice();
@@ -77,10 +77,8 @@ export class Game {
   }
 
   resetGame() {
-    this.term = null;
-    this.mistakes = [];
+    this.term = "";
     this.guesses = [];
-    this.hiddenLetters.clear();
     this.state = GameState.IDLE;
   }
 
@@ -93,28 +91,28 @@ export class Game {
       return GuessResult.INVALID;
     }
 
-    // 1 letter
+    // one letter
     if (guess.length === 1) {
-      if (this.hiddenLetters.has(guess)) {
-        this.hiddenLetters.delete(guess);
-        if (this.hiddenLetters.size === 0) {
-          this.stopGame();
-          return GuessResult.WIN;
-        }
-        return GuessResult.CORRECT;
-      } else {
-        this.mistakes.push(guess);
-        if (this.mistakes.length >= this.maxMistakes) {
-          this.stopGame();
-          return GuessResult.LOSS;
-        }
-        return GuessResult.MISTAKE;
+      const isCorrect = this.hiddenLetters.has(guess);
+      this.guesses.push(guess);
+
+      if (this.hiddenLetters.size === 0) {
+        this.stopGame();
+        return GuessResult.WIN;
+      } else if (this.mistakes.length >= this.maxMistakes) {
+        this.stopGame();
+        return GuessResult.LOSS;
       }
+      return isCorrect ? GuessResult.HIT : GuessResult.MISS;
     }
+
     // full word guess
-    else if (guess.length === this.term.length) {
+    if (guess.length === this.term.length) {
       this.stopGame();
       return guess === this.term ? GuessResult.WIN : GuessResult.LOSS;
-    } else return GuessResult.INVALID;
+    }
+
+    // neither
+    return GuessResult.INVALID;
   }
 }
