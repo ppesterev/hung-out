@@ -1,17 +1,16 @@
 const DEFAULT_MISTAKE_LIMIT = 7;
 
 const enum GameState {
-  IDLE,
-  STARTING,
-  GUESSING
+  IDLE = "IDLE",
+  GUESSING = "GUESSING"
 }
 
 const enum GuessResult {
-  INVALID,
-  HIT,
-  MISS,
-  WIN,
-  LOSS
+  INVALID = "INVALID",
+  HIT = "HIT",
+  MISS = "MISS",
+  WIN = "WIN",
+  LOSS = "LOSS"
 }
 
 export class Game {
@@ -72,13 +71,13 @@ export class Game {
     this.wordlist = wordlist.slice();
   }
 
-  stopGame() {
-    this.state = GameState.IDLE;
+  startGame() {
+    this.term = this.wordlist[Math.floor(Math.random() * this.wordlist.length)];
+    this.guesses = [];
+    this.state = GameState.GUESSING;
   }
 
-  resetGame() {
-    this.term = "";
-    this.guesses = [];
+  stopGame() {
     this.state = GameState.IDLE;
   }
 
@@ -91,10 +90,9 @@ export class Game {
       return GuessResult.INVALID;
     }
 
-    // one letter
     if (guess.length === 1) {
       const isCorrect = this.hiddenLetters.has(guess);
-      this.guesses.push(guess);
+      this._guesses.push(guess);
 
       if (this.hiddenLetters.size === 0) {
         this.stopGame();
@@ -106,13 +104,11 @@ export class Game {
       return isCorrect ? GuessResult.HIT : GuessResult.MISS;
     }
 
-    // full word guess
     if (guess.length === this.term.length) {
       this.stopGame();
       return guess === this.term ? GuessResult.WIN : GuessResult.LOSS;
     }
 
-    // neither
     return GuessResult.INVALID;
   }
 }
