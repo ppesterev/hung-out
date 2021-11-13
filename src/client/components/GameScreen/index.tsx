@@ -28,7 +28,7 @@ export default function GameScreen({ users, messages, onDisconnected }: Props) {
         className="chat-form"
         onSubmit={(evt) => {
           evt.preventDefault();
-          api.sendMessage(messageText);
+          api.sendMessage({ text: messageText, isGuess: true });
         }}
       >
         <input

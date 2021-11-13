@@ -1,4 +1,8 @@
-import { ServerDataUpdate, ServerUpdate } from "../../shared/types";
+import {
+  ServerDataUpdate,
+  ServerUpdate,
+  UserMessage
+} from "../../shared/types";
 
 const WS_URL =
   process.env.NODE_ENV === "production"
@@ -32,8 +36,8 @@ export function connect(username: string): Promise<ServerDataUpdate> {
   });
 }
 
-export function sendMessage(msg: string) {
-  connection?.send(msg);
+export function sendMessage(msg: UserMessage) {
+  connection?.send(JSON.stringify(msg));
 }
 
 export function onUpdate(handler: (update: ServerDataUpdate) => void) {
