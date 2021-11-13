@@ -1,7 +1,7 @@
 import { WebSocket, RawData } from "ws";
 
 import { GameSession } from "./game-session";
-import { ServerUpdate } from "../shared/types";
+import { ServerUpdate, UserMessage } from "../shared/types";
 
 const connectedUsers = new Map<string, WebSocket>();
 const gameSession = new GameSession();
@@ -13,10 +13,12 @@ const sendToAll = (message: ServerUpdate) => {
 };
 
 const onUserMessage = (username: string, data: RawData) => {
+  const userMessage = JSON.parse(data.toString()) as UserMessage;
+
   sendToAll({
     userMessage: {
       username,
-      text: data.toString()
+      text: userMessage.text
     }
   });
 };

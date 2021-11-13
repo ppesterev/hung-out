@@ -1,13 +1,7 @@
 import { Game, GuessResult } from "./hangman-game";
 import { getWordlist } from "./wordlist";
 
-type GameResult = "win" | "loss";
-
-export interface GameUpdate {
-  partialTerm?: string;
-  scores?: { [key: string]: number };
-  gameResult?: GameResult;
-}
+import { GameUpdate } from "../shared/types";
 
 export class GameSession {
   protected scores: { [key: string]: number } = {};

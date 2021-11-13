@@ -1,3 +1,11 @@
+type GameResult = "win" | "loss";
+
+export interface GameUpdate {
+  partialTerm?: string;
+  scores?: { [key: string]: number };
+  gameResult?: GameResult;
+}
+
 export interface ServerErrorUpdate {
   error: string;
 }
@@ -9,6 +17,12 @@ export interface ServerDataUpdate {
     text: string;
   };
   userList?: string[];
+  gameUpdate?: GameUpdate;
 }
 
 export type ServerUpdate = ServerDataUpdate | ServerErrorUpdate;
+
+export interface UserMessage {
+  text: string;
+  isGuess: boolean;
+}
