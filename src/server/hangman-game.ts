@@ -2,10 +2,11 @@ const DEFAULT_MISTAKE_LIMIT = 7;
 
 const enum GameState {
   IDLE = "IDLE",
-  GUESSING = "GUESSING"
+  GUESSING = "GUESSING",
+  ENDED = "ENDED"
 }
 
-const enum GuessResult {
+export const enum GuessResult {
   INVALID = "INVALID",
   HIT = "HIT",
   MISS = "MISS",
@@ -30,6 +31,17 @@ export class Game {
     this._term = term;
   }
 
+  get partialTerm(): string {
+    if (this.state === GameState.ENDED) {
+      return this.term;
+    }
+
+    return this.term
+      .split("")
+      .map((letter) => (this.revealedLetters.has(letter) ? letter : "_"))
+      .join("");
+  }
+
   protected _guesses: string[] = [];
   get guesses() {
     return this._guesses.slice();
@@ -43,14 +55,14 @@ export class Game {
     return this.guesses.filter((guess) => !termLetters.includes(guess));
   }
 
-  protected get hiddenLetters(): Set<string> {
+  get hiddenLetters(): Set<string> {
     const termLetters = this.term.split("");
     return new Set(
       termLetters.filter((letter) => !this.guesses.includes(letter))
     );
   }
 
-  protected get revealedLetters(): Set<string> {
+  get revealedLetters(): Set<string> {
     const termLetters = this.term.split("");
     return new Set(
       termLetters.filter((letter) => this.guesses.includes(letter))
@@ -77,10 +89,6 @@ export class Game {
     this.state = GameState.GUESSING;
   }
 
-  stopGame() {
-    this.state = GameState.IDLE;
-  }
-
   makeGuess(guess: string): GuessResult {
     if (this.state !== GameState.GUESSING || this.term === null) {
       return GuessResult.INVALID;
@@ -95,17 +103,17 @@ export class Game {
       this._guesses.push(guess);
 
       if (this.hiddenLetters.size === 0) {
-        this.stopGame();
+        this.state = GameState.ENDED;
         return GuessResult.WIN;
       } else if (this.mistakes.length >= this.maxMistakes) {
-        this.stopGame();
+        this.state = GameState.ENDED;
         return GuessResult.LOSS;
       }
       return isCorrect ? GuessResult.HIT : GuessResult.MISS;
     }
 
     if (guess.length === this.term.length) {
-      this.stopGame();
+      this.state = GameState.ENDED;
       return guess === this.term ? GuessResult.WIN : GuessResult.LOSS;
     }
 
