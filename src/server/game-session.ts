@@ -31,6 +31,13 @@ export class GameSession {
     delete this.scores[username];
   }
 
+  getGameState(): GameUpdate {
+    return {
+      partialTerm: this.game.partialTerm,
+      scores: { ...this.scores }
+    };
+  }
+
   makeGuess(guesserName: string, guess: string): GameUpdate {
     if (!(guesserName in this.scores)) {
       return {};
