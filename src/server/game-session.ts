@@ -33,6 +33,10 @@ export class GameSession {
     return true;
   }
 
+  removePlayer(username: string) {
+    delete this.scores[username];
+  }
+
   makeGuess(guesserName: string, guess: string): GameUpdate {
     if (!(guesserName in this.scores)) {
       return {};
