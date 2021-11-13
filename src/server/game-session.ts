@@ -1,5 +1,5 @@
 import { Game, GuessResult } from "./hangman-game";
-import { getWordlist } from "./wordlist";
+import { words } from "./words";
 
 import { GameUpdate } from "../shared/types";
 
@@ -8,7 +8,7 @@ export class GameSession {
   protected game: Game;
 
   constructor() {
-    this.game = new Game(getWordlist());
+    this.game = new Game(words);
   }
 
   start() {
