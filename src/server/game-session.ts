@@ -1,22 +1,22 @@
 import { Game, GuessResult } from "./hangman-game";
 import { words } from "./words";
 
-import { GameUpdate } from "../shared/types";
+import { GameState } from "../shared/types";
 
 export class GameSession {
   protected scores: { [key: string]: number } = {};
   protected game: Game;
 
-  protected onEnded: null | ((endResult: GameUpdate) => void) = null;
-  protected onRestarted: null | ((initialState: GameUpdate) => void) = null;
+  protected onEnded: null | ((endResult: GameState) => void) = null;
+  protected onRestarted: null | ((initialState: GameState) => void) = null;
 
   constructor() {
     this.game = new Game(words);
   }
 
   start(
-    onEnded: (result: GameUpdate) => void,
-    onRestarted: (initialState: GameUpdate) => void
+    onEnded: (result: GameState) => void,
+    onRestarted: (initialState: GameState) => void
   ) {
     for (const name in this.scores) {
       this.scores[name] = 0;
@@ -40,7 +40,7 @@ export class GameSession {
     delete this.scores[username];
   }
 
-  getGameState(): GameUpdate {
+  getGameState(): GameState {
     return {
       partialTerm: this.game.partialTerm,
       mistakes: this.game.mistakes,
@@ -48,7 +48,7 @@ export class GameSession {
     };
   }
 
-  makeGuess(guesserName: string, guess: string): GameUpdate {
+  makeGuess(guesserName: string, guess: string): GameState {
     if (!(guesserName in this.scores)) {
       return {};
     }
@@ -59,7 +59,7 @@ export class GameSession {
       return {};
     }
 
-    const update: GameUpdate = {
+    const update: GameState = {
       partialTerm: this.game.partialTerm,
       mistakes: this.game.mistakes,
       scores: {}

@@ -1,6 +1,6 @@
 type GameResult = "win" | "loss";
 
-export interface GameUpdate {
+export interface GameState {
   partialTerm?: string;
   scores?: { [key: string]: number };
   mistakes?: string[];
@@ -18,7 +18,7 @@ export interface ServerDataUpdate {
     text: string;
   };
   userList?: string[];
-  gameUpdate?: GameUpdate;
+  gameUpdate?: GameState;
 }
 
 export type ServerUpdate = ServerDataUpdate | ServerErrorUpdate;

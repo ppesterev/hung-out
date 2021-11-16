@@ -1,6 +1,7 @@
 import { useState } from "preact/hooks";
 
 import * as api from "../../api";
+import { GameState } from "../../../shared/types";
 
 import WelcomeScreen from "../WelcomeScreen";
 import GameScreen from "../GameScreen";
@@ -11,6 +12,7 @@ export default function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
   const [users, setUsers] = useState<string[]>([]);
+  const [gameState, setGameState] = useState<GameState>({});
 
   return isConnected ? (
     <GameScreen
