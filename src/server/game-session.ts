@@ -43,6 +43,7 @@ export class GameSession {
   getGameState(): GameUpdate {
     return {
       partialTerm: this.game.partialTerm,
+      mistakes: this.game.mistakes,
       scores: { ...this.scores }
     };
   }
@@ -84,12 +85,7 @@ export class GameSession {
       this.onEnded && this.onEnded(update);
       setTimeout(() => {
         this.game.startGame();
-        this.onRestarted &&
-          this.onRestarted({
-            partialTerm: this.game.partialTerm,
-            scores: { ...this.scores },
-            mistakes: this.game.mistakes
-          });
+        this.onRestarted && this.onRestarted(this.getGameState());
       }, 3000);
     }
     update.scores![guesserName] = this.scores[guesserName];
