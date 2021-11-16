@@ -69,6 +69,10 @@ export class GameSession {
         update.gameResult = "loss";
     }
 
+    // game ended -- restart
+    if (update.gameResult) {
+      this.game.startGame();
+    }
     update.scores![guesserName] = this.scores[guesserName];
     return update;
   }

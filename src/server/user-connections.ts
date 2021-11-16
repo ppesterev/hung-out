@@ -52,6 +52,11 @@ export const addUser = (connection: WebSocket, username: string | null) => {
     })
   );
 
+  // first connection
+  if (connectedUsers.size === 0) {
+    gameSession.start();
+  }
+
   connectedUsers.set(username, connection);
   gameSession.addPlayer(username);
   sendToAll({ serverMessage: `User ${username} connected` });
