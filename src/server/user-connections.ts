@@ -1,7 +1,7 @@
 import { WebSocket, RawData } from "ws";
 
 import { GameSession } from "./game-session";
-import { ServerUpdate, UserMessage } from "../shared/types";
+import { ServerUpdate, ClientMessage } from "../shared/types";
 
 const connectedUsers = new Map<string, WebSocket>();
 const gameSession = new GameSession();
@@ -13,16 +13,23 @@ const sendToAll = (message: ServerUpdate) => {
 };
 
 const onUserMessage = (username: string, data: RawData) => {
-  const userMessage = JSON.parse(data.toString()) as UserMessage;
+  const userMessage = JSON.parse(data.toString()) as ClientMessage;
   const response: ServerUpdate = {
     userMessage: {
       username,
-      text: userMessage.text
+      text: userMessage.text,
+      isGuess: false
     }
   };
 
   if (userMessage.isGuess) {
-    response.gameUpdate = gameSession.makeGuess(username, userMessage.text);
+    let result = gameSession.makeGuess(username, userMessage.text);
+    response.gameUpdate = result.gameUpdate;
+    response.userMessage = {
+      ...response.userMessage!, // it's defined 10 lines above
+      isGuess: true,
+      isCorrect: result.isCorrect
+    };
   }
 
   sendToAll(response);

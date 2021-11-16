@@ -1,7 +1,7 @@
 import {
   ServerDataUpdate,
   ServerUpdate,
-  UserMessage
+  ClientMessage
 } from "../../shared/types";
 
 const WS_URL =
@@ -36,7 +36,7 @@ export function connect(username: string): Promise<ServerDataUpdate> {
   });
 }
 
-export function sendMessage(msg: UserMessage) {
+export function sendMessage(msg: ClientMessage) {
   connection?.send(JSON.stringify(msg));
 }
 

@@ -1,14 +1,22 @@
 import { useState } from "preact/hooks";
 
+import { GameState } from "../../../shared/types";
+import { Message } from "../../types";
 import * as api from "../../api";
 
 interface Props {
   users: string[];
-  messages: string[];
+  messages: Message[];
+  gameState: GameState;
   onDisconnected: () => void;
 }
 
-export default function GameScreen({ users, messages, onDisconnected }: Props) {
+export default function GameScreen({
+  users,
+  messages,
+  gameState,
+  onDisconnected
+}: Props) {
   const [messageText, setMessageText] = useState("");
   return (
     <div className="game-screen">
@@ -23,6 +31,11 @@ export default function GameScreen({ users, messages, onDisconnected }: Props) {
         {messages.map((msg) => (
           <li>{msg}</li>
         ))}
+      </ul>
+      <h2>Game state</h2>
+      <ul>
+        <li>Term: {gameState.partialTerm}</li>
+        <li>Mistakes: {gameState.mistakes}</li>
       </ul>
       <form
         className="chat-form"

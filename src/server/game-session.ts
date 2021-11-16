@@ -48,15 +48,18 @@ export class GameSession {
     };
   }
 
-  makeGuess(guesserName: string, guess: string): GameState {
+  makeGuess(
+    guesserName: string,
+    guess: string
+  ): { isCorrect: boolean; gameUpdate: GameState } {
     if (!(guesserName in this.scores)) {
-      return {};
+      return { gameUpdate: {}, isCorrect: false };
     }
 
     const remainingLetters = this.game.hiddenLetters.size;
     const result = this.game.makeGuess(guess);
     if (result === GuessResult.INVALID) {
-      return {};
+      return { gameUpdate: {}, isCorrect: false };
     }
 
     const update: GameState = {
@@ -89,6 +92,9 @@ export class GameSession {
       }, 3000);
     }
     update.scores![guesserName] = this.scores[guesserName];
-    return update;
+    return {
+      gameUpdate: update,
+      isCorrect: result === GuessResult.HIT || result === GuessResult.WIN
+    };
   }
 }

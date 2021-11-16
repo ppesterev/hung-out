@@ -1,7 +1,8 @@
-import { useState } from "preact/hooks";
+import { useState, useCallback } from "preact/hooks";
 
+import { GameState, ServerDataUpdate } from "../../../shared/types";
+import { Message } from "../../types";
 import * as api from "../../api";
-import { GameState } from "../../../shared/types";
 
 import WelcomeScreen from "../WelcomeScreen";
 import GameScreen from "../GameScreen";
@@ -10,28 +11,40 @@ import "./style.css";
 
 export default function App() {
   const [isConnected, setIsConnected] = useState(false);
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [users, setUsers] = useState<string[]>([]);
   const [gameState, setGameState] = useState<GameState>({});
+
+  const onUpdate = useCallback((update: ServerDataUpdate) => {
+    setMessages((messages) =>
+      messages
+        .concat(update.serverMessage ? { text: update.serverMessage } : [])
+        .concat(update.userMessage ? { ...update.userMessage } : [])
+    );
+    setGameState((state) => ({ ...state, ...update.gameUpdate }));
+  }, []);
+
+  const onConnected = useCallback((response: ServerDataUpdate) => {
+    setUsers((users) => response.userList || users);
+    setIsConnected(true);
+    api.onUpdate(onUpdate);
+  }, []);
+
+  const onDisconnected = useCallback(() => {
+    setIsConnected(false);
+    setMessages([]);
+    setUsers([]);
+    setGameState({});
+  }, []);
 
   return isConnected ? (
     <GameScreen
       users={users}
       messages={messages}
-      onDisconnected={() => {
-        setIsConnected(false);
-        setMessages([]);
-      }}
+      gameState={gameState}
+      onDisconnected={onDisconnected}
     />
   ) : (
-    <WelcomeScreen
-      onConnected={(response) => {
-        setUsers((users) => response.userList || users);
-        setIsConnected(true);
-        api.onUpdate((update) => {
-          setMessages((messages) => messages.concat(JSON.stringify(update)));
-        });
-      }}
-    />
+    <WelcomeScreen onConnected={onConnected} />
   );
 }

@@ -16,6 +16,8 @@ export interface ServerDataUpdate {
   userMessage?: {
     username: string;
     text: string;
+    isGuess: boolean;
+    isCorrect?: boolean;
   };
   userList?: string[];
   gameUpdate?: GameState;
@@ -23,7 +25,7 @@ export interface ServerDataUpdate {
 
 export type ServerUpdate = ServerDataUpdate | ServerErrorUpdate;
 
-export interface UserMessage {
+export interface ClientMessage {
   text: string;
   isGuess: boolean;
 }
