@@ -29,7 +29,9 @@ export default function GameScreen({
       <h2>Chat</h2>
       <ul>
         {messages.map((msg) => (
-          <li>{msg}</li>
+          <li>
+            {msg.username === null ? msg.text : `${msg.username}: ${msg.text}`}
+          </li>
         ))}
       </ul>
       <h2>Game state</h2>

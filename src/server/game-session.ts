@@ -1,4 +1,4 @@
-import { Game, GuessResult } from "./hangman-game";
+import { Game } from "./hangman-game";
 import { words } from "./words";
 
 import { GameState } from "../shared/types";
@@ -48,38 +48,36 @@ export class GameSession {
     };
   }
 
-  makeGuess(
-    guesserName: string,
-    guess: string
-  ): { isCorrect: boolean; gameUpdate: GameState } {
+  makeGuess(guesserName: string, guess: string): GameState {
     if (!(guesserName in this.scores)) {
-      return { gameUpdate: {}, isCorrect: false };
+      return {};
     }
 
     const remainingLetters = this.game.hiddenLetters.size;
     const result = this.game.makeGuess(guess);
-    if (result === GuessResult.INVALID) {
-      return { gameUpdate: {}, isCorrect: false };
+    if (result === "invalid") {
+      return {};
     }
 
     const update: GameState = {
       partialTerm: this.game.partialTerm,
       mistakes: this.game.mistakes,
+      guessResult: result,
       scores: {}
     };
 
     switch (result) {
-      case GuessResult.HIT:
+      case "hit":
         this.scores[guesserName]++;
         break;
-      case GuessResult.MISS:
+      case "miss":
         this.scores[guesserName]--;
         break;
-      case GuessResult.WIN:
+      case "win":
         this.scores[guesserName] += Math.floor(remainingLetters * 1.5);
         update.gameResult = "win";
         break;
-      case GuessResult.LOSS:
+      case "loss":
         update.gameResult = "loss";
     }
 
@@ -92,9 +90,6 @@ export class GameSession {
       }, 3000);
     }
     update.scores![guesserName] = this.scores[guesserName];
-    return {
-      gameUpdate: update,
-      isCorrect: result === GuessResult.HIT || result === GuessResult.WIN
-    };
+    return update;
   }
 }

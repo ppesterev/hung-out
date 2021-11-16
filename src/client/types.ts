@@ -1,18 +1,13 @@
-type UserChat = {
-  isGuess: false;
-};
+import { GuessResult } from "../shared/types";
 
-type UserGuess = {
-  isGuess: true;
-  isCorrect: boolean;
-};
-
-export type UserMessage = (UserChat | UserGuess) & {
+export type UserMessage = {
   username: string;
   text: string;
+  guess?: GuessResult;
 };
 
 export type ServerMessage = {
+  username: null;
   text: string;
 };
 

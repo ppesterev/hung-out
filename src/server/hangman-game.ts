@@ -1,17 +1,11 @@
+import { GuessResult } from "../shared/types";
+
 const DEFAULT_MISTAKE_LIMIT = 7;
 
 const enum GameState {
   IDLE = "IDLE",
   GUESSING = "GUESSING",
   ENDED = "ENDED"
-}
-
-export const enum GuessResult {
-  INVALID = "INVALID",
-  HIT = "HIT",
-  MISS = "MISS",
-  WIN = "WIN",
-  LOSS = "LOSS"
 }
 
 export class Game {
@@ -91,11 +85,11 @@ export class Game {
 
   makeGuess(guess: string): GuessResult {
     if (this.state !== GameState.GUESSING || this.term === null) {
-      return GuessResult.INVALID;
+      return "invalid";
     }
 
     if (this.revealedLetters.has(guess) || this.mistakes.includes(guess)) {
-      return GuessResult.INVALID;
+      return "invalid";
     }
 
     if (guess.length === 1) {
@@ -104,19 +98,19 @@ export class Game {
 
       if (this.hiddenLetters.size === 0) {
         this.state = GameState.ENDED;
-        return GuessResult.WIN;
+        return "win";
       } else if (this.mistakes.length >= this.maxMistakes) {
         this.state = GameState.ENDED;
-        return GuessResult.LOSS;
+        return "loss";
       }
-      return isCorrect ? GuessResult.HIT : GuessResult.MISS;
+      return isCorrect ? "hit" : "miss";
     }
 
     if (guess.length === this.term.length) {
       this.state = GameState.ENDED;
-      return guess === this.term ? GuessResult.WIN : GuessResult.LOSS;
+      return guess === this.term ? "win" : "loss";
     }
 
-    return GuessResult.INVALID;
+    return "invalid";
   }
 }

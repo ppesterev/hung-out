@@ -18,8 +18,12 @@ export default function App() {
   const onUpdate = useCallback((update: ServerDataUpdate) => {
     setMessages((messages) =>
       messages
-        .concat(update.serverMessage ? { text: update.serverMessage } : [])
-        .concat(update.userMessage ? { ...update.userMessage } : [])
+        .concat(
+          update.serverMessage
+            ? { username: null, text: update.serverMessage }
+            : []
+        )
+        .concat(update.userMessage || [])
     );
     setGameState((state) => ({ ...state, ...update.gameUpdate }));
   }, []);

@@ -1,9 +1,11 @@
+export type GuessResult = "invalid" | "hit" | "miss" | "win" | "loss";
 type GameResult = "win" | "loss";
 
 export interface GameState {
   partialTerm?: string;
   scores?: { [key: string]: number };
   mistakes?: string[];
+  guessResult?: GuessResult;
   gameResult?: GameResult;
 }
 
@@ -16,8 +18,7 @@ export interface ServerDataUpdate {
   userMessage?: {
     username: string;
     text: string;
-    isGuess: boolean;
-    isCorrect?: boolean;
+    guess?: GuessResult;
   };
   userList?: string[];
   gameUpdate?: GameState;

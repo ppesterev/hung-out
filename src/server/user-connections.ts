@@ -17,19 +17,14 @@ const onUserMessage = (username: string, data: RawData) => {
   const response: ServerUpdate = {
     userMessage: {
       username,
-      text: userMessage.text,
-      isGuess: false
+      text: userMessage.text
     }
   };
 
   if (userMessage.isGuess) {
     let result = gameSession.makeGuess(username, userMessage.text);
-    response.gameUpdate = result.gameUpdate;
-    response.userMessage = {
-      ...response.userMessage!, // it's defined 10 lines above
-      isGuess: true,
-      isCorrect: result.isCorrect
-    };
+    response.gameUpdate = result;
+    response.userMessage!.guess = result.guessResult;
   }
 
   sendToAll(response);
