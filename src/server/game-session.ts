@@ -7,14 +7,23 @@ export class GameSession {
   protected scores: { [key: string]: number } = {};
   protected game: Game;
 
+  protected onEnded: null | ((endResult: GameUpdate) => void) = null;
+  protected onRestarted: null | ((initialState: GameUpdate) => void) = null;
+
   constructor() {
     this.game = new Game(words);
   }
 
-  start() {
+  start(
+    onEnded: (result: GameUpdate) => void,
+    onRestarted: (initialState: GameUpdate) => void
+  ) {
     for (const name in this.scores) {
       this.scores[name] = 0;
     }
+
+    this.onEnded = onEnded;
+    this.onRestarted = onRestarted;
     this.game.startGame();
   }
 
@@ -51,6 +60,7 @@ export class GameSession {
 
     const update: GameUpdate = {
       partialTerm: this.game.partialTerm,
+      mistakes: this.game.mistakes,
       scores: {}
     };
 
@@ -71,7 +81,16 @@ export class GameSession {
 
     // game ended -- restart
     if (update.gameResult) {
-      this.game.startGame();
+      this.onEnded && this.onEnded(update);
+      setTimeout(() => {
+        this.game.startGame();
+        this.onRestarted &&
+          this.onRestarted({
+            partialTerm: this.game.partialTerm,
+            scores: { ...this.scores },
+            mistakes: this.game.mistakes
+          });
+      }, 3000);
     }
     update.scores![guesserName] = this.scores[guesserName];
     return update;

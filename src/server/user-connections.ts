@@ -54,7 +54,14 @@ export const addUser = (connection: WebSocket, username: string | null) => {
 
   // first connection
   if (connectedUsers.size === 0) {
-    gameSession.start();
+    gameSession.start(
+      (endResult) => {
+        sendToAll({ serverMessage: "Round over, restarting in 3s" });
+      },
+      (initialState) => {
+        sendToAll({ gameUpdate: initialState });
+      }
+    );
   }
 
   connectedUsers.set(username, connection);

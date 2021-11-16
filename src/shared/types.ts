@@ -3,6 +3,7 @@ type GameResult = "win" | "loss";
 export interface GameUpdate {
   partialTerm?: string;
   scores?: { [key: string]: number };
+  mistakes?: string[];
   gameResult?: GameResult;
 }
 
