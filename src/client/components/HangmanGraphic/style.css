@@ -1,0 +1,38 @@
+.hangman-graphic {
+  position: relative;
+  width: 500px;
+  height: 512px;
+
+  background-image: url("../../img/gallows.png");
+}
+
+.hangman-graphic__figure {
+  display: grid;
+  position: absolute;
+  top: 40px;
+  left: 120px;
+  transform-origin: 50% 10px;
+  animation: hang 2s ease-in-out 0s infinite alternate both;
+}
+
+.hangman-graphic__part {
+  grid-row: 1 / -1;
+  grid-column: 1 / -1;
+  width: 217px;
+  height: 387px;
+  opacity: 0.12;
+}
+
+.hangman-graphic__part--filled {
+  opacity: 1;
+}
+
+@keyframes hang {
+  from {
+    transform: rotate(-10deg);
+  }
+
+  to {
+    transform: rotate(12deg);
+  }
+}
