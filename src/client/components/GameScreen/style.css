@@ -1,0 +1,26 @@
+.game-screen {
+  display: grid;
+  place-content: center;
+  grid-template-rows: repeat(4, auto);
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-areas:
+    "term term term"
+    "user hang chat"
+    "tops hang chat"
+    "tops rules chat";
+  gap: 20px;
+
+  min-height: 100vh;
+}
+
+.user-list {
+  grid-area: tops;
+}
+
+.chat {
+  grid-area: chat;
+}
+
+.game-state {
+  grid-area: hang;
+}
