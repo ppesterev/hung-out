@@ -1,4 +1,12 @@
 body {
+  margin: 0;
+
+  font-size: 16px;
   font-family: monospace;
-  background-color: #decade;
+  background-color: whitesmoke;
+}
+
+#app {
+  max-width: 1200px;
+  margin: 0 auto;
 }

@@ -15,7 +15,7 @@ export default function WelcomeScreen({ onConnected }: Props) {
 
   return (
     <div className="welcome-screen">
-      {error && <p>Error: {error}</p>}
+      {error && <span class="welcome-screen__error">Error: {error}</span>}
       <form
         className="join-form"
         onSubmit={(evt) => {
@@ -30,15 +30,19 @@ export default function WelcomeScreen({ onConnected }: Props) {
             });
         }}
       >
-        <label>
+        <label class="join-form__field">
+          <span className="join-form__label">Username:</span>
           <input
+            class="join-form__input"
             type="text"
             name="username"
             value={username}
             onInput={(evt) => setUsername(evt.currentTarget.value)}
           />
-          <button type="submit">Join game</button>
         </label>
+        <button type="submit" class="join-form__submit-btn">
+          Join game
+        </button>
       </form>
     </div>
   );

@@ -1,5 +1,24 @@
 .welcome-screen {
   display: grid;
+  grid-template-rows: minmax(20px, auto) auto;
   place-content: center;
+  gap: 20px;
+
   min-height: 100vh;
+}
+
+.join-form {
+  grid-row: 2;
+  place-self: center;
+
+  display: grid;
+  gap: 10px;
+}
+
+.join-form__field {
+  display: grid;
+}
+
+.join-form__submit-btn {
+  place-self: center;
 }
