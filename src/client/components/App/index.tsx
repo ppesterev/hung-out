@@ -30,6 +30,9 @@ export default function App() {
 
   const onConnected = useCallback((response: ServerDataUpdate) => {
     setUsers((users) => response.userList || users);
+    setGameState((state) =>
+      response.gameUpdate ? { ...state, ...response.gameUpdate } : state
+    );
     setIsConnected(true);
     api.onUpdate(onUpdate);
   }, []);

@@ -4,6 +4,8 @@ import { GameState } from "../../../shared/types";
 import { Message } from "../../types";
 import * as api from "../../api";
 
+import HangmanGraphic from "../HangmanGraphic";
+
 import "./style.css";
 
 interface Props {
@@ -22,6 +24,7 @@ export default function GameScreen({
   const [messageText, setMessageText] = useState("");
   return (
     <div className="game-screen">
+      <span className="term">{gameState.partialTerm}</span>
       <section className="user-list">
         <h2>Users</h2>
         <ul>
@@ -59,13 +62,12 @@ export default function GameScreen({
       </section>
       <section className="game-state">
         <h2>Game state</h2>
-        <ul>
-          <li>Term: {gameState.partialTerm}</li>
-          <li>Mistakes: {gameState.mistakes}</li>
-        </ul>
+        <span>Mistakes: {gameState.mistakes}</span>
+        <HangmanGraphic mistakeCount={gameState.mistakes?.length || 0} />
       </section>
 
       <button
+        class="leave-btn"
         type="button"
         onClick={() => {
           api.disconnect();
