@@ -13,25 +13,25 @@
   min-height: 100vh;
 }
 
-.term {
+.game-screen__term {
   grid-area: term;
   place-self: center;
   font-size: 48px;
   letter-spacing: 10px;
 }
 
-.user-list {
+.game-screen__user-list {
   grid-area: tops;
 }
 
-.chat {
+.game-screen__chat {
   grid-area: chat;
 }
 
-.game-state {
+.game-screen__game-state {
   grid-area: hang;
 }
 
-.leave-btn {
+.game-screen__leave-btn {
   grid-area: user;
 }
