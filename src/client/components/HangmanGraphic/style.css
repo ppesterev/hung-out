@@ -21,7 +21,7 @@
   grid-column: 1 / -1;
   width: 217px;
   height: 387px;
-  opacity: 0.12;
+  opacity: 0.05;
 }
 
 .hangman-graphic__part--filled {
@@ -30,10 +30,10 @@
 
 @keyframes hang {
   from {
-    transform: rotate(-10deg);
+    transform: rotate(-6deg);
   }
 
   to {
-    transform: rotate(12deg);
+    transform: rotate(8deg);
   }
 }
