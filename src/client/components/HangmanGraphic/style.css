@@ -1,16 +1,17 @@
 .hangman-graphic {
   position: relative;
-  width: 500px;
+  width: 400px;
   height: 512px;
 
   background-image: url("../../img/gallows.png");
+  background-position: 40% 0;
 }
 
 .hangman-graphic__figure {
   display: grid;
   position: absolute;
   top: 40px;
-  left: 120px;
+  left: 30px;
   transform-origin: 50% 10px;
   animation: hang 2s ease-in-out 0s infinite alternate both;
 }
