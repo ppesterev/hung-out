@@ -1,0 +1,30 @@
+.chat {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: auto;
+  gap: 10px;
+
+  height: 600px;
+}
+
+.chat__history,
+.chat__form {
+  padding: 10px;
+
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px -2px darkslategrey;
+}
+
+.chat__history {
+  grid-row: 1;
+
+  max-height: 100%;
+  margin: 0;
+
+  list-style: none;
+  overflow: auto;
+}
+
+.chat__form {
+  grid-row: 2;
+}
