@@ -14,6 +14,7 @@ interface Props {
 export default function Chat({ messages }: Props) {
   const [messageText, setMessageText] = useState("");
   const chatlogRef = createRef<HTMLUListElement>();
+  const inputRef = createRef<HTMLInputElement>();
 
   // scroll to bottom
   useLayoutEffect(() => {
@@ -39,6 +40,8 @@ export default function Chat({ messages }: Props) {
         onSubmit={(evt) => {
           evt.preventDefault();
           api.sendMessage({ text: messageText, isGuess: true });
+          setMessageText("");
+          inputRef.current?.focus();
         }}
       >
         <input
@@ -46,6 +49,7 @@ export default function Chat({ messages }: Props) {
           name="message"
           value={messageText}
           onInput={(evt) => setMessageText(evt.currentTarget.value)}
+          ref={inputRef}
         />
         <button type="submit">Send chat message</button>
         <button type="submit">Make a guess</button>
