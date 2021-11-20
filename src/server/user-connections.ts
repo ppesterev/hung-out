@@ -4,7 +4,7 @@ import { GameSession } from "./game-session";
 import { ServerUpdate, ClientMessage } from "../shared/types";
 
 const connectedUsers = new Map<string, WebSocket>();
-const gameSession = new GameSession();
+let gameSession: GameSession | null = null;
 
 const sendToAll = (message: ServerUpdate) => {
   connectedUsers.forEach((connection) => {
@@ -21,7 +21,7 @@ const onUserMessage = (username: string, data: RawData) => {
     }
   };
 
-  if (userMessage.isGuess) {
+  if (gameSession && userMessage.isGuess) {
     let result = gameSession.makeGuess(username, userMessage.text);
     response.gameUpdate = result;
     response.userMessage!.guess = result.guessResult;
@@ -32,7 +32,7 @@ const onUserMessage = (username: string, data: RawData) => {
 
 const onDisconnected = (username: string) => {
   connectedUsers.delete(username);
-  gameSession.removePlayer(username);
+  gameSession?.removePlayer(username);
   sendToAll({ serverMessage: `User ${username} disconnected` });
 };
 
@@ -47,15 +47,9 @@ export const addUser = (connection: WebSocket, username: string | null) => {
     return;
   }
 
-  connection.send(
-    JSON.stringify({
-      userList: Array.from(connectedUsers.keys()),
-      gameUpdate: gameSession.getGameState()
-    })
-  );
-
   // first connection
-  if (connectedUsers.size === 0) {
+  if (!gameSession) {
+    gameSession = new GameSession();
     gameSession.start(
       (endResult) => {
         sendToAll({ serverMessage: "Round over, restarting in 3s" });
@@ -65,6 +59,13 @@ export const addUser = (connection: WebSocket, username: string | null) => {
       }
     );
   }
+
+  connection.send(
+    JSON.stringify({
+      userList: Array.from(connectedUsers.keys()),
+      gameUpdate: gameSession.getGameState()
+    })
+  );
 
   connectedUsers.set(username, connection);
   gameSession.addPlayer(username);
