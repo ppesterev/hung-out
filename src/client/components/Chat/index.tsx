@@ -1,4 +1,5 @@
-import { useState } from "preact/hooks";
+import { createRef } from "preact/compat";
+import { useState, useLayoutEffect } from "preact/hooks";
 
 import * as api from "../../api";
 
@@ -12,10 +13,17 @@ interface Props {
 
 export default function Chat({ messages }: Props) {
   const [messageText, setMessageText] = useState("");
+  const chatlogRef = createRef<HTMLUListElement>();
+
+  // scroll to bottom
+  useLayoutEffect(() => {
+    const element = chatlogRef.current;
+    element?.scrollTo({ top: element.scrollHeight - element.clientHeight });
+  }, [messages, chatlogRef]);
 
   return (
     <div className="chat">
-      <ul className="chat__history">
+      <ul className="chat__history" ref={chatlogRef}>
         {messages.map((msg) => {
           const isServer = msg.username === null;
 
