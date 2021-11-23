@@ -1,4 +1,4 @@
-import { useState, useEffect } from "preact/hooks";
+import { useState, useEffect, useMemo } from "preact/hooks";
 import { default as merge } from "deepmerge";
 
 import { GameState } from "../../../shared/types";
@@ -23,11 +23,7 @@ export default function GameScreen({
   gameState,
   onDisconnected
 }: Props) {
-  // extract scores from gameState
-  const [scores, setScores] = useState<{ [key: string]: number }>({});
-  useEffect(() => {
-    setScores((scores) => merge(scores, gameState.scores || {}));
-  }, [username, gameState]);
+  const scores = gameState.scores || {};
 
   return (
     <div className="game-screen">

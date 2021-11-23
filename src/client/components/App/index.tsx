@@ -11,7 +11,7 @@ import GameScreen from "../GameScreen";
 import "./style.css";
 
 // new mistakes array overwrites old one
-const gaemUpdateMergeOpts: Options = {
+const gameUpdateMergeOpts: Options = {
   arrayMerge: (dest, source, opt) => source
 };
 
@@ -23,21 +23,23 @@ export default function App() {
   const onUpdate = useCallback((update: ServerDataUpdate) => {
     setMessages((messages) =>
       messages
+        .concat(update.userMessage || [])
         .concat(
           update.serverMessage
             ? { username: null, text: update.serverMessage }
             : []
         )
-        .concat(update.userMessage || [])
     );
-    setGameState((state) => ({ ...state, ...update.gameUpdate }));
+    setGameState((state) =>
+      merge(state, update.gameUpdate || {}, gameUpdateMergeOpts)
+    );
   }, []);
 
   const onConnected = useCallback(
     (username: string, response: ServerDataUpdate) => {
       setGameState((state) =>
         response.gameUpdate
-          ? merge(state, response.gameUpdate, gaemUpdateMergeOpts)
+          ? merge(state, response.gameUpdate, gameUpdateMergeOpts)
           : state
       );
       setConnectedAs(username);
