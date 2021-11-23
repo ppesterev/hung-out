@@ -60,16 +60,16 @@ export const addUser = (connection: WebSocket, username: string | null) => {
     );
   }
 
-  connection.send(
-    JSON.stringify({
-      userList: Array.from(connectedUsers.keys()),
-      gameUpdate: gameSession.getGameState()
-    })
-  );
-
-  connectedUsers.set(username, connection);
+  // add player and update scoreboards
   gameSession.addPlayer(username);
-  sendToAll({ serverMessage: `User ${username} connected` });
+  sendToAll({
+    serverMessage: `User ${username} connected`,
+    gameUpdate: { scores: gameSession.getGameState().scores }
+  });
+
+  // add connection, sent initial state
+  connectedUsers.set(username, connection);
+  connection.send(JSON.stringify({ gameUpdate: gameSession.getGameState() }));
 
   connection.on("message", (data) => onUserMessage(username, data));
   connection.on("close", () => onDisconnected(username));
