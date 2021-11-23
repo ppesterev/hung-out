@@ -1,4 +1,5 @@
 import { useState, useCallback } from "preact/hooks";
+import { default as merge, Options } from "deepmerge";
 
 import { GameState, ServerDataUpdate } from "../../../shared/types";
 import { Message } from "../../types";
@@ -9,10 +10,14 @@ import GameScreen from "../GameScreen";
 
 import "./style.css";
 
+// new mistakes array overwrites old one
+const gaemUpdateMergeOpts: Options = {
+  arrayMerge: (dest, source, opt) => source
+};
+
 export default function App() {
   const [connectedAs, setConnectedAs] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [users, setUsers] = useState<string[]>([]);
   const [gameState, setGameState] = useState<GameState>({});
 
   const onUpdate = useCallback((update: ServerDataUpdate) => {
@@ -30,9 +35,10 @@ export default function App() {
 
   const onConnected = useCallback(
     (username: string, response: ServerDataUpdate) => {
-      setUsers((users) => response.userList || users);
       setGameState((state) =>
-        response.gameUpdate ? { ...state, ...response.gameUpdate } : state
+        response.gameUpdate
+          ? merge(state, response.gameUpdate, gaemUpdateMergeOpts)
+          : state
       );
       setConnectedAs(username);
       api.onUpdate(onUpdate);
@@ -43,14 +49,12 @@ export default function App() {
   const onDisconnected = useCallback(() => {
     setConnectedAs(null);
     setMessages([]);
-    setUsers([]);
     setGameState({});
   }, []);
 
   return connectedAs !== null ? (
     <GameScreen
       username={connectedAs}
-      users={users}
       messages={messages}
       gameState={gameState}
       onDisconnected={onDisconnected}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "preact/hooks";
+import { default as merge } from "deepmerge";
 
 import { GameState } from "../../../shared/types";
 import { Message } from "../../types";
@@ -11,7 +12,6 @@ import "./style.css";
 
 interface Props {
   username: string;
-  users: string[];
   messages: Message[];
   gameState: GameState;
   onDisconnected: () => void;
@@ -19,16 +19,14 @@ interface Props {
 
 export default function GameScreen({
   username,
-  users,
   messages,
   gameState,
   onDisconnected
 }: Props) {
-  const [score, setScore] = useState(0);
-
+  // extract scores from gameState
+  const [scores, setScores] = useState<{ [key: string]: number }>({});
   useEffect(() => {
-    const scores = gameState.scores || {};
-    setScore((score) => (isNaN(scores[username]) ? score : scores[username]));
+    setScores((scores) => merge(scores, gameState.scores || {}));
   }, [username, gameState]);
 
   return (
@@ -36,7 +34,9 @@ export default function GameScreen({
       <span className="game-screen__term">{gameState.partialTerm}</span>
       <section className="game-screen__user-info">
         <h2 class="game-screen__info-title">Playing as {username}</h2>
-        <span class="game-screen__score">Current score: {score}</span>
+        <span class="game-screen__score">
+          Current score: {scores[username]}
+        </span>
         <button
           class="game-screen__leave-btn"
           type="button"
@@ -49,10 +49,12 @@ export default function GameScreen({
         </button>
       </section>
       <section className="game-screen__user-list">
-        <h2 class="visually-hidden">Users</h2>
+        <h2>Leaderboard</h2>
         <ul>
-          {users.map((user) => (
-            <li>{user}</li>
+          {Object.keys(scores).map((name) => (
+            <li>
+              {name}: {scores[name]}
+            </li>
           ))}
         </ul>
       </section>
