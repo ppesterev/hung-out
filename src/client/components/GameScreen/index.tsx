@@ -24,7 +24,7 @@ export default function GameScreen({
     <div className="game-screen">
       <span className="game-screen__term">{gameState.partialTerm}</span>
       <section className="game-screen__user-list">
-        <h2>Users</h2>
+        <h2 class="visually-hidden">Users</h2>
         <ul>
           {users.map((user) => (
             <li>{user}</li>
@@ -32,10 +32,11 @@ export default function GameScreen({
         </ul>
       </section>
       <section className="game-screen__chat">
+        <h2 className="visually-hidden">Chat</h2>
         <Chat messages={messages} />
       </section>
       <section className="game-screen__game-state">
-        <h2>Game state</h2>
+        <h2 class="visually-hidden">Game state</h2>
         <span>Mistakes: {gameState.mistakes}</span>
         <HangmanGraphic mistakeCount={gameState.mistakes?.length || 0} />
       </section>
