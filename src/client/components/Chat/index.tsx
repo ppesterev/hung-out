@@ -20,7 +20,7 @@ export default function Chat({ messages }: Props) {
   useLayoutEffect(() => {
     const element = chatlogRef.current;
     element?.scrollTo({ top: element.scrollHeight - element.clientHeight });
-  }, [messages, chatlogRef]);
+  }, [messages]);
 
   return (
     <div className="chat">
@@ -44,13 +44,16 @@ export default function Chat({ messages }: Props) {
           inputRef.current?.focus();
         }}
       >
-        <input
-          type="text"
-          name="message"
-          value={messageText}
-          onInput={(evt) => setMessageText(evt.currentTarget.value)}
-          ref={inputRef}
-        />
+        <label class="chat__field">
+          Send a message or make a guess
+          <input
+            type="text"
+            name="message"
+            value={messageText}
+            onInput={(evt) => setMessageText(evt.currentTarget.value)}
+            ref={inputRef}
+          />
+        </label>
         <button type="submit">Send chat message</button>
         <button type="submit">Make a guess</button>
       </form>
