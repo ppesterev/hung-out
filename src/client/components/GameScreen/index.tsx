@@ -8,6 +8,7 @@ import Chat from "../Chat";
 import "./style.css";
 
 interface Props {
+  username: string;
   users: string[];
   messages: Message[];
   gameState: GameState;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export default function GameScreen({
+  username,
   users,
   messages,
   gameState,

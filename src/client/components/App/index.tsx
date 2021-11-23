@@ -10,7 +10,7 @@ import GameScreen from "../GameScreen";
 import "./style.css";
 
 export default function App() {
-  const [isConnected, setIsConnected] = useState(false);
+  const [connectedAs, setConnectedAs] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [users, setUsers] = useState<string[]>([]);
   const [gameState, setGameState] = useState<GameState>({});
@@ -28,24 +28,28 @@ export default function App() {
     setGameState((state) => ({ ...state, ...update.gameUpdate }));
   }, []);
 
-  const onConnected = useCallback((response: ServerDataUpdate) => {
-    setUsers((users) => response.userList || users);
-    setGameState((state) =>
-      response.gameUpdate ? { ...state, ...response.gameUpdate } : state
-    );
-    setIsConnected(true);
-    api.onUpdate(onUpdate);
-  }, []);
+  const onConnected = useCallback(
+    (username: string, response: ServerDataUpdate) => {
+      setUsers((users) => response.userList || users);
+      setGameState((state) =>
+        response.gameUpdate ? { ...state, ...response.gameUpdate } : state
+      );
+      setConnectedAs(username);
+      api.onUpdate(onUpdate);
+    },
+    []
+  );
 
   const onDisconnected = useCallback(() => {
-    setIsConnected(false);
+    setConnectedAs(null);
     setMessages([]);
     setUsers([]);
     setGameState({});
   }, []);
 
-  return isConnected ? (
+  return connectedAs !== null ? (
     <GameScreen
+      username={connectedAs}
       users={users}
       messages={messages}
       gameState={gameState}

@@ -6,7 +6,7 @@ import { ServerDataUpdate } from "../../../shared/types";
 import "./style.css";
 
 interface Props {
-  onConnected: (response: ServerDataUpdate) => any;
+  onConnected: (username: string, response: ServerDataUpdate) => any;
 }
 
 export default function WelcomeScreen({ onConnected }: Props) {
@@ -23,7 +23,7 @@ export default function WelcomeScreen({ onConnected }: Props) {
           api
             .connect(username)
             .then((response) => {
-              onConnected(response);
+              onConnected(username, response);
             })
             .catch((error) => {
               setError(error);
