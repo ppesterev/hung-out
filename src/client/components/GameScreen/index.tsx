@@ -1,3 +1,5 @@
+import { useMemo } from "preact/hooks";
+
 import { GameState } from "../../../shared/types";
 import { Message } from "../../types";
 import * as api from "../../api";
@@ -22,7 +24,12 @@ export default function GameScreen({
   gameState,
   onDisconnected
 }: Props) {
-  const scores = gameState.scores || {};
+  const leaderboardScores = useMemo(() => {
+    const scores = gameState.scores || {};
+    return Object.keys(scores)
+      .sort((a, b) => scores[a] - scores[b])
+      .map((name) => ({ name, score: scores[name] }));
+  }, [gameState]);
 
   return (
     <div className="game-screen">
@@ -30,7 +37,7 @@ export default function GameScreen({
       <section className="game-screen__user-info">
         <h2 class="game-screen__info-title">Playing as {username}</h2>
         <span class="game-screen__score">
-          Current score: {scores[username]}
+          Current score: {(gameState.scores || {})[username]}
         </span>
         <Button
           class="game-screen__leave-btn"
@@ -45,13 +52,13 @@ export default function GameScreen({
       </section>
       <section className="game-screen__user-list">
         <h2>Leaderboard</h2>
-        <ul>
-          {Object.keys(scores).map((name) => (
+        <ol>
+          {leaderboardScores.map(({ name, score }) => (
             <li>
-              {name}: {scores[name]}
+              {name}: {score}
             </li>
           ))}
-        </ul>
+        </ol>
       </section>
       <section className="game-screen__chat">
         <h2 className="visually-hidden">Chat</h2>
