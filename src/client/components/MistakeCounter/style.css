@@ -1,0 +1,23 @@
+.mistakes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mistakes__item {
+  position: relative;
+  font-size: 32px;
+  color: darkslategrey;
+}
+
+.mistakes__item--filled::after {
+  content: "/";
+  position: absolute;
+  top: 0;
+  left: -2px;
+
+  font-size: 40px;
+  line-height: 1;
+  color: maroon;
+  opacity: 0.3;
+}
