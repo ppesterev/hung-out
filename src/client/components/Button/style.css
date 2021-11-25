@@ -1,0 +1,17 @@
+.btn {
+  position: relative;
+  font: inherit;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 1px 1px 4px -1px darkslategrey;
+}
+
+.btn:hover {
+  box-shadow: 1px 1px 3px 0 darkslategrey;
+}
+
+.btn:active {
+  top: 2px;
+  left: 1px;
+}
