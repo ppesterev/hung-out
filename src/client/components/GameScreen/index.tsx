@@ -2,6 +2,7 @@ import { GameState } from "../../../shared/types";
 import { Message } from "../../types";
 import * as api from "../../api";
 
+import Button from "../Button";
 import HangmanGraphic from "../HangmanGraphic";
 import MistakeCounter from "../MistakeCounter";
 import Chat from "../Chat";
@@ -31,7 +32,7 @@ export default function GameScreen({
         <span class="game-screen__score">
           Current score: {scores[username]}
         </span>
-        <button
+        <Button
           class="game-screen__leave-btn"
           type="button"
           onClick={() => {
@@ -40,7 +41,7 @@ export default function GameScreen({
           }}
         >
           Leave
-        </button>
+        </Button>
       </section>
       <section className="game-screen__user-list">
         <h2>Leaderboard</h2>

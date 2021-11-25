@@ -6,6 +6,8 @@ import * as api from "../../api";
 
 import { Message } from "../../types";
 
+import Button from "../Button";
+
 import "./style.css";
 
 interface Props {
@@ -65,8 +67,12 @@ export default function Chat({ messages }: Props) {
             ref={inputRef}
           />
         </label>
-        <button type="submit">Send chat message</button>
-        <button type="submit">Make a guess</button>
+        <Button type="submit" className="chat__btn">
+          Send chat message
+        </Button>
+        <Button type="submit" className="chat__btn">
+          Make a guess
+        </Button>
       </form>
     </div>
   );
