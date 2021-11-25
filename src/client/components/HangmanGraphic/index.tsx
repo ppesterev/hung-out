@@ -1,3 +1,5 @@
+import classNames from "classnames";
+
 import "./style.css";
 
 const PART_COUNT = 7;
@@ -20,9 +22,9 @@ export default function HangmanGraphic({ mistakeCount }: Props) {
 
             return (
               <img
-                className={`hangman-graphic__part ${
-                  index < mistakeCount ? "hangman-graphic__part--filled" : ""
-                }`}
+                className={classNames("hangman-graphic__part", {
+                  "hangman-graphic__part--filled": index < mistakeCount
+                })}
                 src={imgUrl}
               />
             );

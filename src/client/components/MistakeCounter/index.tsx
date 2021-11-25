@@ -1,3 +1,5 @@
+import classNames from "classnames";
+
 import "./style.css";
 
 interface Props {
@@ -16,13 +18,13 @@ export default function MistakeCounter({
   );
 
   return (
-    <ul className={`mistakes ${className || ""}`}>
+    <ul className={classNames("mistakes", className)}>
       {mistakeSlots.map((mistake) => {
         return (
           <li
-            className={`mistakes__item ${
-              mistake ? "mistakes__item--filled" : ""
-            }`}
+            className={classNames("mistakes__item", {
+              "mistakes__item--filled": mistake
+            })}
           >
             {mistake?.slice(0, 1) || "_"}
           </li>

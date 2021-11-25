@@ -1,5 +1,6 @@
 import { createRef } from "preact/compat";
 import { useState, useLayoutEffect } from "preact/hooks";
+import classNames from "classnames";
 
 import * as api from "../../api";
 
@@ -27,9 +28,16 @@ export default function Chat({ messages }: Props) {
       <ul className="chat__history" ref={chatlogRef}>
         {messages.map((msg) => {
           const isServer = msg.username === null;
+          const isGuess = Boolean(msg.username && msg.guess);
 
           return (
-            <li class={isServer ? "chat__server-message" : "chat__message"}>
+            <li
+              class={classNames({
+                chat__message: !isServer,
+                "chat__server-message": isServer,
+                "chat__message--guess": isGuess
+              })}
+            >
               {isServer ? msg.text : `${msg.username}: ${msg.text}`}
             </li>
           );

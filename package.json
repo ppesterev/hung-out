@@ -8,6 +8,7 @@
     "start": "node dist/server/server.js"
   },
   "dependencies": {
+    "classnames": "^2.3.1",
     "deepmerge": "^4.2.2",
     "mime-types": "^2.1.33",
     "preact": "^10.5.13",
