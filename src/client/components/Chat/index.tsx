@@ -49,6 +49,7 @@ export default function Chat({ messages }: Props) {
           <input
             type="text"
             name="message"
+            autoComplete="off"
             value={messageText}
             onInput={(evt) => setMessageText(evt.currentTarget.value)}
             ref={inputRef}
