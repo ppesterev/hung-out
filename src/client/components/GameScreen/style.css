@@ -55,4 +55,11 @@
 
 .game-screen__game-state {
   grid-area: hang;
+  position: relative;
+}
+
+.game-screen__mistakes {
+  position: absolute;
+  top: 80px;
+  right: 80px;
 }

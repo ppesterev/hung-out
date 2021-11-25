@@ -1,11 +1,9 @@
-import { useState, useEffect, useMemo } from "preact/hooks";
-import { default as merge } from "deepmerge";
-
 import { GameState } from "../../../shared/types";
 import { Message } from "../../types";
 import * as api from "../../api";
 
 import HangmanGraphic from "../HangmanGraphic";
+import MistakeCounter from "../MistakeCounter";
 import Chat from "../Chat";
 
 import "./style.css";
@@ -60,8 +58,12 @@ export default function GameScreen({
       </section>
       <section className="game-screen__game-state">
         <h2 class="visually-hidden">Game state</h2>
-        <span>Mistakes: {gameState.mistakes}</span>
         <HangmanGraphic mistakeCount={gameState.mistakes?.length || 0} />
+        <MistakeCounter
+          className="game-screen__mistakes"
+          mistakes={gameState.mistakes || []}
+          maxMistakes={7}
+        />
       </section>
     </div>
   );
