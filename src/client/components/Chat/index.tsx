@@ -32,13 +32,15 @@ export default function Chat({ messages }: Props) {
 
           return (
             <li
-              class={classNames({
-                chat__message: !isServer,
-                "chat__server-message": isServer,
+              class={classNames("chat__message", {
+                "chat__message--server": isServer,
                 "chat__message--guess": isGuess
               })}
             >
-              {isServer ? msg.text : `${msg.username}: ${msg.text}`}
+              {isServer || (
+                <span className="chat__sender">{msg.username}: </span>
+              )}
+              {msg.text}
             </li>
           );
         })}

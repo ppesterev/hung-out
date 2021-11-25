@@ -25,6 +25,27 @@
   overflow: auto;
 }
 
+.chat__message {
+  padding: 0 5px;
+}
+
+.chat__message--server {
+  color: grey;
+  font-style: italic;
+}
+
+.chat__message--guess {
+  margin: 5px 0;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: rgb(231, 231, 231);
+}
+
+.chat__sender {
+  color: darkslategrey;
+  font-weight: 700;
+}
+
 .chat__form {
   grid-row: 2;
 
