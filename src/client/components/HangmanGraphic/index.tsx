@@ -4,6 +4,9 @@ import "./style.css";
 
 const PART_COUNT = 7;
 
+const partUrl = (index: number): string =>
+  new URL(`../../img/part${index + 1}.png`, import.meta.url).href;
+
 interface Props {
   mistakeCount: number;
 }
@@ -15,10 +18,7 @@ export default function HangmanGraphic({ mistakeCount }: Props) {
         {Array(PART_COUNT)
           .fill(null)
           .map((_, index) => {
-            const imgUrl = new URL(
-              `../../img/part${index + 1}.png`,
-              import.meta.url
-            ).href;
+            const imgUrl = partUrl(index);
 
             return (
               <img
