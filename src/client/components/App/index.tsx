@@ -30,9 +30,12 @@ export default function App() {
             : []
         )
     );
-    setGameState((state) =>
-      merge(state, update.gameUpdate || {}, gameUpdateMergeOpts)
-    );
+    setGameState((state) => {
+      if (!update.gameUpdate?.gameResult) {
+        delete state.gameResult; // hack, sort this out
+      }
+      return merge(state, update.gameUpdate || {}, gameUpdateMergeOpts);
+    });
   }, []);
 
   const onConnected = useCallback(
