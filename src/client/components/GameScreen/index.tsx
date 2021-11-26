@@ -27,7 +27,7 @@ export default function GameScreen({
   const leaderboardScores = useMemo(() => {
     const scores = gameState.scores || {};
     return Object.keys(scores)
-      .sort((a, b) => scores[a] - scores[b])
+      .sort((a, b) => scores[b] - scores[a])
       .map((name) => ({ name, score: scores[name] }));
   }, [gameState]);
 

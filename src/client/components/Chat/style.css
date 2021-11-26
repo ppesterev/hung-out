@@ -27,6 +27,7 @@
 
 .chat__message {
   padding: 0 5px;
+  margin-bottom: 5px;
 }
 
 .chat__message--server {
@@ -35,7 +36,6 @@
 }
 
 .chat__message--guess {
-  margin: 5px 0;
   padding: 5px;
   border-radius: 5px;
   background-color: rgb(231, 231, 231);

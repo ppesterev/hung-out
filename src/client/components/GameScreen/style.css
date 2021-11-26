@@ -8,9 +8,16 @@
     "user hang chat"
     "tops hang chat"
     "tops rules chat";
-  gap: 20px;
+  gap: 10px 20px;
 
   min-height: 100vh;
+}
+
+.game-screen__user-info,
+.game-screen__user-list {
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px -2px darkslategrey;
 }
 
 .game-screen__user-info {
