@@ -1,6 +1,8 @@
 .mistakes {
   margin: 0;
   padding: 0;
+
+  font-family: "Special Elite", monospace;
   list-style: none;
 }
 

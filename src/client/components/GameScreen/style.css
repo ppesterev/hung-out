@@ -13,7 +13,6 @@
   min-height: 100vh;
 }
 
-.game-screen__user-info,
 .game-screen__user-list {
   padding: 10px;
   border-radius: 5px;
@@ -47,9 +46,25 @@
 
 .game-screen__term {
   grid-area: term;
-  place-self: center;
-  font-size: 48px;
-  letter-spacing: 10px;
+  place-self: end center;
+
+  display: flex;
+
+  font-family: "Special Elite", monospace;
+  font-size: 54px;
+}
+
+.game-screen__term--won {
+  color: darkgreen;
+}
+
+.game-screen__term--lost {
+  color: maroon;
+}
+
+.game-screen__term-letter {
+  width: 48px;
+  text-align: center;
 }
 
 .game-screen__user-list {

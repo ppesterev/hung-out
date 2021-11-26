@@ -1,4 +1,5 @@
 import { useMemo } from "preact/hooks";
+import classNames from "classnames";
 
 import { GameState } from "../../../shared/types";
 import { Message } from "../../types";
@@ -33,7 +34,16 @@ export default function GameScreen({
 
   return (
     <div className="game-screen">
-      <span className="game-screen__term">{gameState.partialTerm}</span>
+      <div
+        className={classNames("game-screen__term", {
+          "game-screen__term--won": gameState.gameResult === "win",
+          "game-screen__term--lost": gameState.gameResult === "loss"
+        })}
+      >
+        {gameState.partialTerm?.split("").map((letter) => (
+          <span className="game-screen__term-letter">{letter}</span>
+        ))}
+      </div>
       <section className="game-screen__user-info">
         <h2 class="game-screen__info-title">Playing as {username}</h2>
         <span class="game-screen__score">
