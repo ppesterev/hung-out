@@ -25,6 +25,8 @@ const onUserMessage = (username: string, data: RawData) => {
     let result = gameSession.makeGuess(username, userMessage.text);
     response.gameUpdate = result;
     response.userMessage!.guess = result.guessResult;
+    result.gameResult &&
+      (response.serverMessage = "Round over, restarting in 3s");
   }
 
   sendToAll(response);
@@ -51,9 +53,7 @@ export const addUser = (connection: WebSocket, username: string | null) => {
   if (!gameSession) {
     gameSession = new GameSession();
     gameSession.start(
-      (endResult) => {
-        sendToAll({ serverMessage: "Round over, restarting in 3s" });
-      },
+      (endResult) => {},
       (initialState) => {
         sendToAll({ gameUpdate: initialState });
       }
