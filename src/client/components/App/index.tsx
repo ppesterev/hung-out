@@ -31,8 +31,8 @@ export default function App() {
         )
     );
     setGameState((state) => {
-      if (!update.gameUpdate?.gameResult) {
-        delete state.gameResult; // hack, sort this out
+      if (update.gameUpdate && !update.gameUpdate.gameResult) {
+        delete state.gameResult;
       }
       return merge(state, update.gameUpdate || {}, gameUpdateMergeOpts);
     });
