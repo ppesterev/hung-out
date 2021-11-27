@@ -1,12 +1,10 @@
 import { createRef } from "preact/compat";
-import { useState, useLayoutEffect } from "preact/hooks";
+import { useLayoutEffect } from "preact/hooks";
 import classNames from "classnames";
-
-import * as api from "../../api";
 
 import { Message } from "../../types";
 
-import Button from "../Button";
+import ChatForm from "./ChatForm";
 
 import "./style.css";
 
@@ -15,9 +13,7 @@ interface Props {
 }
 
 export default function Chat({ messages }: Props) {
-  const [messageText, setMessageText] = useState("");
   const chatlogRef = createRef<HTMLUListElement>();
-  const inputRef = createRef<HTMLInputElement>();
 
   // scroll to bottom
   useLayoutEffect(() => {
@@ -47,33 +43,7 @@ export default function Chat({ messages }: Props) {
           );
         })}
       </ul>
-      <form
-        className="chat__form"
-        onSubmit={(evt) => {
-          evt.preventDefault();
-          api.sendMessage({ text: messageText, isGuess: true });
-          setMessageText("");
-          inputRef.current?.focus();
-        }}
-      >
-        <label class="chat__field">
-          Send a message or make a guess
-          <input
-            type="text"
-            name="message"
-            autoComplete="off"
-            value={messageText}
-            onInput={(evt) => setMessageText(evt.currentTarget.value)}
-            ref={inputRef}
-          />
-        </label>
-        <Button type="submit" className="chat__btn">
-          Send chat message
-        </Button>
-        <Button type="submit" className="chat__btn">
-          Make a guess
-        </Button>
-      </form>
+      <ChatForm className="chat__form" />
     </div>
   );
 }
