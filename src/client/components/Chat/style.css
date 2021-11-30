@@ -26,6 +26,14 @@
   overflow: auto;
 }
 
+.chat__history::-webkit-scrollbar {
+  width: 5px;
+}
+
+.chat__history::-webkit-scrollbar-thumb {
+  background-color: rgba(112, 128, 144, 0.5);
+}
+
 .chat__message {
   padding: 0 5px;
   margin-bottom: 5px;
