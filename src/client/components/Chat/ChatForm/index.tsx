@@ -60,7 +60,10 @@ export default function ChatForm({ className }: Props) {
           sendMessage(messageText, false);
         }}
       >
-        Send chat message
+        <div className="chat-form__btn-label">
+          Send chat message
+          <span className="chat-form__btn-hint">(Ctrl + Enter)</span>
+        </div>
       </Button>
       <Button
         type="button"
@@ -69,7 +72,10 @@ export default function ChatForm({ className }: Props) {
           sendMessage(messageText, true);
         }}
       >
-        Make a guess
+        <div className="chat-form__btn-label">
+          Make a guess
+          <span className="chat-form__btn-hint">(Enter)</span>
+        </div>
       </Button>
     </form>
   );

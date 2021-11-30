@@ -14,3 +14,12 @@
 .chat-form__btn {
   font-weight: 700;
 }
+
+.chat-form__btn-label {
+  display: grid;
+}
+
+.chat-form__btn-hint {
+  font-size: 0.8em;
+  font-weight: normal;
+}
