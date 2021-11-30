@@ -66,16 +66,28 @@ export class GameSession {
       scores: {}
     };
 
+    const guesserScore = this.scores[guesserName];
     switch (result) {
+      case "win":
+        update.gameResult = "win";
       case "hit":
         this.scores[guesserName]++;
         break;
-      case "win":
-        this.scores[guesserName] += Math.floor(remainingLetters * 1.5);
+
+      case "instant-win":
+        this.scores[guesserName] += Math.floor(remainingLetters * 1.6);
         update.gameResult = "win";
         break;
+
+      case "instant-loss":
+        this.scores[guesserName] = Math.max(0, guesserScore - remainingLetters);
       case "loss":
+        Object.keys(this.scores).forEach((name) => {
+          this.scores[name] = Math.max(0, this.scores[name] - 1);
+        });
+        update.scores = { ...this.scores };
         update.gameResult = "loss";
+        break;
     }
 
     // game ended -- restart

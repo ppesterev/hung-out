@@ -1,4 +1,12 @@
-export type GuessResult = "invalid" | "hit" | "miss" | "win" | "loss";
+export type GuessResult =
+  | "invalid"
+  | "hit"
+  | "miss"
+  | "win"
+  | "loss"
+  | "instant-win"
+  | "instant-loss";
+
 type GameResult = "win" | "loss";
 
 export interface GameState {

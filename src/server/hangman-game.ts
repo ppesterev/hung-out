@@ -108,7 +108,7 @@ export class Game {
 
     if (guess.length === this.term.length) {
       this.state = GameState.ENDED;
-      return guess === this.term ? "win" : "loss";
+      return guess === this.term ? "instant-win" : "instant-loss";
     }
 
     return "invalid";
