@@ -19,6 +19,14 @@
   display: grid;
 }
 
+.join-form__input {
+  font: inherit;
+  padding: 5px;
+
+  border-radius: 5px;
+  border: 1px solid darkslategrey;
+}
+
 .join-form__submit-btn {
   place-self: center;
 }

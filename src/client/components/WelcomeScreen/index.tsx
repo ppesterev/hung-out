@@ -3,6 +3,8 @@ import { useState } from "preact/hooks";
 import * as api from "../../api";
 import { ServerDataUpdate } from "../../../shared/types";
 
+import Button from "../Button";
+
 import "./style.css";
 
 interface Props {
@@ -40,9 +42,9 @@ export default function WelcomeScreen({ onConnected }: Props) {
             onInput={(evt) => setUsername(evt.currentTarget.value)}
           />
         </label>
-        <button type="submit" class="join-form__submit-btn">
+        <Button type="submit" class="join-form__submit-btn">
           Join game
-        </button>
+        </Button>
       </form>
     </div>
   );
