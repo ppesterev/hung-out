@@ -5,7 +5,7 @@ import { GameState } from "../../../shared/types";
 import { Message } from "../../types";
 import * as api from "../../api";
 
-import Button from "../Button";
+import UserInfo from "./UserInfo";
 import HangmanGraphic from "../HangmanGraphic";
 import MistakeCounter from "../MistakeCounter";
 import Chat from "../Chat";
@@ -45,20 +45,15 @@ export default function GameScreen({
         ))}
       </div>
       <section className="game-screen__user-info">
-        <h2 class="game-screen__info-title">Playing as {username}</h2>
-        <span class="game-screen__score">
-          Current score: {(gameState.scores || {})[username]}
-        </span>
-        <Button
-          class="game-screen__leave-btn"
-          type="button"
-          onClick={() => {
+        <h2 className="visually-hidden">User info</h2>
+        <UserInfo
+          name={username}
+          score={(gameState.scores || {})[username]}
+          onLeave={() => {
             api.disconnect();
             onDisconnected();
           }}
-        >
-          Leave
-        </Button>
+        />
       </section>
       <section className="game-screen__user-list">
         <h2>Leaderboard</h2>

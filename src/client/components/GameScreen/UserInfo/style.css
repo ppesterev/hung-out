@@ -1,0 +1,28 @@
+.user-info {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.user-info__title {
+  grid-row: 1 / -1;
+  grid-column: 1;
+
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.user-info__name {
+  font-weight: 700;
+}
+
+.user-info__score {
+  grid-row: 2;
+  grid-column: 1;
+}
+
+.user-info__leave-btn {
+  grid-row: 2;
+  grid-column: 2;
+  place-self: center start;
+}

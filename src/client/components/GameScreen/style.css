@@ -21,27 +21,6 @@
 
 .game-screen__user-info {
   grid-area: user;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0 10px;
-}
-
-.game-screen__info-title {
-  grid-row: 1;
-  grid-column: 1;
-
-  margin: 0;
-}
-
-.game-screen__score {
-  grid-row: 2;
-  grid-column: 1;
-}
-
-.game-screen__leave-btn {
-  grid-row: 1;
-  grid-column: 2;
-  place-self: center start;
 }
 
 .game-screen__term {
