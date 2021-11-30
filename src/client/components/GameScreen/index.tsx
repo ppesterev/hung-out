@@ -82,6 +82,19 @@ export default function GameScreen({
           maxMistakes={7}
         />
       </section>
+      <section className="game-screen__instructions">
+        <h2 className="visually-hidden">Instructions</h2>
+        <p>
+          The objective is to guess the word at the top. Send a 1-letter message
+          to make a guess. A correct guess is worth 1 point. Making 7 wrong
+          guesses loses the round.
+        </p>
+        <p>
+          You can also try to guess the entire word at once for bonus points,
+          but getting it wrong immediately loses the round and incurs a points
+          penalty.
+        </p>
+      </section>
     </div>
   );
 }
