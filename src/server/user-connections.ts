@@ -35,7 +35,10 @@ const onUserMessage = (username: string, data: RawData) => {
 const onDisconnected = (username: string) => {
   connectedUsers.delete(username);
   gameSession?.removePlayer(username);
-  sendToAll({ serverMessage: `User ${username} disconnected` });
+  sendToAll({
+    serverMessage: `User ${username} disconnected`,
+    gameUpdate: { scores: gameSession?.getGameState().scores }
+  });
 };
 
 export const addUser = (connection: WebSocket, username: string | null) => {
