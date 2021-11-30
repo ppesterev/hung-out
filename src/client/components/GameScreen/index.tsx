@@ -5,7 +5,7 @@ import { GameState } from "../../../shared/types";
 import { Message } from "../../types";
 import * as api from "../../api";
 
-import UserInfo from "./UserInfo";
+import UserInfo from "../UserInfo";
 import HangmanGraphic from "../HangmanGraphic";
 import MistakeCounter from "../MistakeCounter";
 import Chat from "../Chat";
@@ -56,10 +56,14 @@ export default function GameScreen({
         />
       </section>
       <section className="game-screen__user-list">
-        <h2>Leaderboard</h2>
-        <ol>
+        <h2 className="game-screen__heading">Leaderboard</h2>
+        <ol className="leaderboard">
           {leaderboardScores.map(({ name, score }) => (
-            <li>
+            <li
+              className={classNames("leaderboard__entry", {
+                "leaderboard__entry--own": username === name
+              })}
+            >
               {name}: {score}
             </li>
           ))}

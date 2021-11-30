@@ -8,9 +8,13 @@
     "user hang chat"
     "tops hang chat"
     "tops rules chat";
-  gap: 10px 20px;
+  gap: 10px;
 
   min-height: 100vh;
+}
+
+.game-screen__heading {
+  margin: 0 0 10px;
 }
 
 .game-screen__user-list {
@@ -63,4 +67,13 @@
   position: absolute;
   top: 80px;
   right: 80px;
+}
+
+.leaderboard {
+  margin: 0;
+  padding: 0 0 0 30px;
+}
+
+.leaderboard__entry--own {
+  font-weight: 700;
 }
