@@ -70,9 +70,6 @@ export class GameSession {
       case "hit":
         this.scores[guesserName]++;
         break;
-      case "miss":
-        this.scores[guesserName]--;
-        break;
       case "win":
         this.scores[guesserName] += Math.floor(remainingLetters * 1.5);
         update.gameResult = "win";
