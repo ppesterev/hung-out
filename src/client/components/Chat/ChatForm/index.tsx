@@ -42,9 +42,10 @@ export default function ChatForm({ className }: Props) {
         sendMessage(messageText, isGuess);
       }}
     >
-      <label class="chat-form__field">
+      <label className="chat-form__field">
         Send a message or make a guess
         <input
+          className="chat-form__input"
           type="text"
           name="message"
           autoComplete="off"
